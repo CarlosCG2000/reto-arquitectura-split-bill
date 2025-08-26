@@ -34,22 +34,27 @@ import androidx.core.content.FileProvider
 import kotlinx.coroutines.launch
 import java.io.File
 import androidx.core.graphics.scale
+import io.devexpert.splitbill.data.scan.ScanCounterRepository
+import io.devexpert.splitbill.data.ticket.TicketRepository
+import io.devexpert.splitbill.domain.TicketData
+import io.devexpert.splitbill.ui.ImageConverter
 
 // El Composable principal de la pantalla de inicio
 @Composable
 fun HomeScreen(
+    ticketRepository: TicketRepository,
     modifier: Modifier = Modifier,
+    scanCounterRepository: ScanCounterRepository,
     onTicketProcessed: (TicketData) -> Unit
 ) {
     // Variable local para los escaneos restantes (ahora desde DataStore)
     val context = LocalContext.current
-    val scanCounter = remember { ScanCounter(context) }
-    val scansLeft by scanCounter.scansRemaining.collectAsState(initial = 5)
+    val scansLeft by scanCounterRepository.scansRemaining.collectAsState(initial = 5)
     val isButtonEnabled = scansLeft > 0
 
     // Inicializar o resetear si es necesario al cargar la pantalla
     LaunchedEffect(Unit) {
-        scanCounter.initializeOrResetIfNeeded()
+        scanCounterRepository.initializeOrResetIfNeeded()
     }
 
     // Estado para mostrar el resultado del procesamiento
@@ -58,7 +63,6 @@ fun HomeScreen(
 
     // Coroutine scope para operaciones asíncronas
     val coroutineScope = rememberCoroutineScope()
-    val ticketProcessor = remember { TicketProcessor(useMockData = BuildConfig.DEBUG) }
 
     var photoUri by remember { mutableStateOf<Uri?>(null) }
 
@@ -79,26 +83,25 @@ fun HomeScreen(
             val bitmap = inputStream?.use { BitmapFactory.decodeStream(it) }
             if (bitmap != null) {
                 // Redimensionar antes de procesar
-                val resizedBitmap = resizeBitmapToMaxWidth(bitmap, 1280)
+                val imageBytes = ImageConverter.toResizedByteArray(bitmap)
                 isProcessing = true
                 errorMessage = null
                 // Procesar la imagen con IA
                 coroutineScope.launch {
-                    ticketProcessor.processTicketImage(resizedBitmap)
-                        .onSuccess { ticketData ->
-                            // Decrementar el contador solo si el procesamiento fue exitoso
-                            scanCounter.decrementScan()
-                            isProcessing = false
-                            // Llamar al callback para navegar a la siguiente pantalla
-                            onTicketProcessed(ticketData)
-                        }
-                        .onFailure { error ->
-                            errorMessage = context.getString(
-                                R.string.error_processing_ticket,
-                                error.message ?: ""
-                            )
-                            isProcessing = false
-                        }
+                    try{
+                        val ticketData = ticketRepository.processTicket(imageBytes)
+                        // Decrementar el contador solo si el procesamiento fue exitoso
+                        scanCounterRepository.decrementScan()
+                        isProcessing = false
+                        // Llamar al callback para navegar a la siguiente pantalla
+                        onTicketProcessed(ticketData)
+                    } catch (e: Exception) {
+                        errorMessage = context.getString(
+                            R.string.error_processing_ticket,
+                            e.message ?: ""
+                        )
+                        isProcessing = false
+                    }
                 }
             } else {
                 errorMessage = context.getString(R.string.could_not_read_image)
