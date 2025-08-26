@@ -30,6 +30,7 @@ data class TicketData(
 class TicketProcessor(private val useMockData: Boolean = false) {
     
     companion object {
+        private var json = Json { ignoreUnknownKeys = true }
         private val MOCK_JSON = """
         {
            "items":[
@@ -152,7 +153,7 @@ class TicketProcessor(private val useMockData: Boolean = false) {
                 delay(1500)
                 
                 // Parsear los datos mock
-                val ticketData = Json { ignoreUnknownKeys = true }.decodeFromString<TicketData>(MOCK_JSON)
+                val ticketData = json.decodeFromString<TicketData>(MOCK_JSON)
                 Result.success(ticketData)
             } else {
                 Log.d("TicketProcessor", "Iniciando procesamiento de imagen...")
@@ -198,7 +199,7 @@ class TicketProcessor(private val useMockData: Boolean = false) {
                 Log.d("TicketProcessor", "Respuesta de IA: $responseText")
 
                 // Parsear el JSON usando kotlinx.serialization
-                val ticketData = Json { ignoreUnknownKeys = true }.decodeFromString<TicketData>(responseText)
+                val ticketData = json.decodeFromString<TicketData>(responseText)
                 Result.success(ticketData)
             }
         } catch (e: Exception) {

@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import io.devexpert.splitbill.ui.theme.SplitBillTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -23,10 +24,8 @@ class MainActivity : ComponentActivity() {
                     composable("home") {
                         HomeScreen(
                             onTicketProcessed = { ticketData ->
-                                // Guardar los datos en el singleton
-                                TicketDataHolder.setTicketData(ticketData)
-                                // Navegar a la pantalla de detalle
-                                navController.navigate("receipt")
+                                TicketDataHolder.setTicketData(ticketData) // Guardar los datos en el singleton
+                                navController.navigate("receipt")  // Navegar a la pantalla de detalle
                             }
                         )
                     }

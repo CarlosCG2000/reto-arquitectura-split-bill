@@ -1,5 +1,6 @@
 package io.devexpert.splitbill
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,10 +50,11 @@ fun ReceiptScreen(
 
     // Estados para manejar las cantidades seleccionadas y items pagados
     var selectedQuantities by remember {
-        mutableStateOf(ticketData.items.associate { item -> item to 0 })
+        mutableStateOf(ticketData.items.associateWith { 0 })
     }
+
     var paidQuantities by remember {
-        mutableStateOf(ticketData.items.associate { item -> item to 0 })
+        mutableStateOf(ticketData.items.associateWith { 0 })
     }
 
     // Calcular total seleccionado
@@ -125,65 +128,65 @@ fun ReceiptScreen(
         }
 
         // Total seleccionado y botón de pagar
-        if (selectedTotal > 0) {
-            Spacer(modifier = Modifier.height(16.dp))
+            AnimatedVisibility (selectedTotal > 0) {
+                Spacer(modifier = Modifier.height(16.dp))
 
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                )
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp)
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
                 ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                    Column(
+                        modifier = Modifier.padding(16.dp)
                     ) {
-                        Text(
-                            text = stringResource(R.string.selected_total),
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                        Text(
-                            text = "€${String.format("%.2f", selectedTotal)}",
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = stringResource(R.string.selected_total),
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Medium
+                            )
+                            Text(
+                                text = "€${String.format(Locale.getDefault(), "%.2f", selectedTotal)}",
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(12.dp))
 
-                    Button(
-                        onClick = {
-                            // Marcar como pagado
-                            paidQuantities = paidQuantities.toMutableMap().apply {
-                                selectedQuantities.forEach { (item, selectedQty) ->
-                                    if (selectedQty > 0) {
-                                        this[item] = (this[item] ?: 0) + selectedQty
+                        Button(
+                            onClick = {
+                                // Marcar como pagado
+                                paidQuantities = paidQuantities.toMutableMap().apply {
+                                    selectedQuantities.forEach { (item, selectedQty) ->
+                                        if (selectedQty > 0) {
+                                            this[item] = (this[item] ?: 0) + selectedQty
+                                        }
                                     }
                                 }
-                            }
-                            // Limpiar selección
-                            selectedQuantities = selectedQuantities.mapValues { 0 }
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF4CAF50) // Verde
-                        )
-                    ) {
-                        Text(
-                            text = stringResource(R.string.mark_as_paid),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                                // Limpiar selección
+                                selectedQuantities = selectedQuantities.mapValues { 0 }
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF4CAF50) // Verde
+                            )
+                        ) {
+                            Text(
+                                text = stringResource(R.string.mark_as_paid),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                     }
                 }
             }
-        }
         }
     }
 }
@@ -237,7 +240,7 @@ fun SelectableTicketItemCard(
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = "€${String.format("%.2f", item.price)} ${stringResource(R.string.each)}",
+                    text = "€${String.format(Locale.getDefault(), "%.2f", item.price)} ${stringResource(R.string.each)}",
                     fontSize = 12.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -351,7 +354,7 @@ fun PaidTicketItemCard(
                     textDecoration = TextDecoration.LineThrough
                 )
                 Text(
-                    text = "€${String.format("%.2f", item.price)} ${stringResource(R.string.each)}",
+                    text = "€${String.format(Locale.getDefault(), "%.2f", item.price)} ${stringResource(R.string.each)}",
                     fontSize = 12.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textDecoration = TextDecoration.LineThrough
@@ -360,7 +363,7 @@ fun PaidTicketItemCard(
 
             // Precio total pagado
             Text(
-                text = "€${String.format("%.2f", item.price * paidQuantity)}",
+                text = "€${String.format(Locale.getDefault(), "%.2f", item.price * paidQuantity)}",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
