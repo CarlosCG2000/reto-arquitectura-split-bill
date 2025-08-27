@@ -2,7 +2,7 @@ package io.devexpert.splitbill.app.data.ticket
 
 import android.util.Log
 import io.devexpert.splitbill.data.ticket.TickectDataSource
-import io.devexpert.splitbill.domain.TicketData
+import io.devexpert.splitbill.data.TicketData
 import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
 

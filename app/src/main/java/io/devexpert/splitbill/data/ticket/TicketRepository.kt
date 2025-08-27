@@ -1,7 +1,6 @@
 package io.devexpert.splitbill.data.ticket
 
-import android.graphics.Bitmap
-import io.devexpert.splitbill.domain.TicketData
+import io.devexpert.splitbill.data.TicketData
 
 
 class TicketRepository(private val dataSource: TickectDataSource) {

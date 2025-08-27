@@ -7,7 +7,7 @@ import com.google.firebase.ai.type.Schema
 import com.google.firebase.ai.type.content
 import com.google.firebase.ai.type.generationConfig
 import io.devexpert.splitbill.data.ticket.TickectDataSource
-import io.devexpert.splitbill.domain.TicketData
+import io.devexpert.splitbill.data.TicketData
 import kotlinx.serialization.json.Json
 
 class MLTicketDataSource: TickectDataSource {

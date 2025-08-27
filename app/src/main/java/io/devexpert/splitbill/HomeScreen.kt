@@ -36,7 +36,11 @@ import java.io.File
 import androidx.core.graphics.scale
 import io.devexpert.splitbill.data.scan.ScanCounterRepository
 import io.devexpert.splitbill.data.ticket.TicketRepository
-import io.devexpert.splitbill.domain.TicketData
+import io.devexpert.splitbill.data.TicketData
+import io.devexpert.splitbill.domain.useCases.DecrementScanCounterUseCase
+import io.devexpert.splitbill.domain.useCases.GetScansRemainingUseCase
+import io.devexpert.splitbill.domain.useCases.InitializeScanCounterUseCase
+import io.devexpert.splitbill.domain.useCases.ProcessTicketUseCase
 import io.devexpert.splitbill.ui.ImageConverter
 
 // El Composable principal de la pantalla de inicio
@@ -49,12 +53,18 @@ fun HomeScreen(
 ) {
     // Variable local para los escaneos restantes (ahora desde DataStore)
     val context = LocalContext.current
-    val scansLeft by scanCounterRepository.scansRemaining.collectAsState(initial = 5)
+
+    val processTicketUseCase = remember { ProcessTicketUseCase(ticketRepository) }
+    val getScansRemainingUseCase = remember { GetScansRemainingUseCase(scanCounterRepository) }
+    val initializerOrResetScanCounterUseCase = remember { InitializeScanCounterUseCase(scanCounterRepository) }
+    val decrementScanCounterUseCase = remember { DecrementScanCounterUseCase(scanCounterRepository) }
+
+    val scansLeft by getScansRemainingUseCase().collectAsState(initial = 0)
     val isButtonEnabled = scansLeft > 0
 
     // Inicializar o resetear si es necesario al cargar la pantalla
     LaunchedEffect(Unit) {
-        scanCounterRepository.initializeOrResetIfNeeded()
+        initializerOrResetScanCounterUseCase
     }
 
     // Estado para mostrar el resultado del procesamiento
@@ -89,9 +99,9 @@ fun HomeScreen(
                 // Procesar la imagen con IA
                 coroutineScope.launch {
                     try{
-                        val ticketData = ticketRepository.processTicket(imageBytes)
+                        val ticketData = processTicketUseCase(imageBytes) // Caso de uso
                         // Decrementar el contador solo si el procesamiento fue exitoso
-                        scanCounterRepository.decrementScan()
+                        decrementScanCounterUseCase()
                         isProcessing = false
                         // Llamar al callback para navegar a la siguiente pantalla
                         onTicketProcessed(ticketData)

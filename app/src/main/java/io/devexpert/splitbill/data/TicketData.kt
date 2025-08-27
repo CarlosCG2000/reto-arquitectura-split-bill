@@ -1,4 +1,4 @@
-package io.devexpert.splitbill.domain
+package io.devexpert.splitbill.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
