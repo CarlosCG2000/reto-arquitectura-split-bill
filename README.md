@@ -49,6 +49,10 @@ Proyecto del reto de arquitectura de Antonio Leiva en **Android (Kotlin + Jetpac
 - Pantallas actualizadas para llamar a casos de uso en vez de repositorios
 - `MainActivity` pasa los casos de uso por constructor
 
+<p align="center">
+  <img src="docs/images/domain.png" alt="Captura Domain" width="400"/>
+</p>
+
 ---
 
 ### 📌 Día 4 – *(commit: `dia 3-4 UI Inteligente`)*
@@ -65,7 +69,7 @@ Proyecto del reto de arquitectura de Antonio Leiva en **Android (Kotlin + Jetpac
 
 ---
 
-### 📌 Día 5 – *(commit: `dia 5 Inyección de dependencias y Testing`)*
+### 📌 Día 5 Parte 1 – *(commit: `dia 5 Inyección de dependencias y Testing`)*
 🔹 **Inyección manual de dependencias + Tests unitarios:**
 - 📂 `di/AppModule` con dependencias manuales de la app
 - ViewModels inyectados desde `MainActivity`
@@ -84,7 +88,7 @@ Proyecto del reto de arquitectura de Antonio Leiva en **Android (Kotlin + Jetpac
 
 ---
 
-### 📌 Día 6 – *(commit: `Final mejoras + README.md`)*
+### 📌 Día 5 Parte 2 – *(commit: `Final mejoras + README.md`)*
 🔹 **Últimos cambios y limpieza:**
 - Carpeta `ui` → renombrada a `presentation`
 - `TicketData` → renombrado a `Ticket`
