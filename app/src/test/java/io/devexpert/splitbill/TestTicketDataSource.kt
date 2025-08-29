@@ -1,10 +1,8 @@
 package io.devexpert.splitbill
 
-import io.devexpert.splitbill.data.TicketData
+import io.devexpert.splitbill.data.Ticket
 import io.devexpert.splitbill.data.ticket.TickectDataSource
-import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonBuilder
 
 class TestTicketDataSource : TickectDataSource {
     
@@ -125,7 +123,7 @@ class TestTicketDataSource : TickectDataSource {
         """.trimIndent()
     }
     
-    override suspend fun processTicket(imageBytes: ByteArray): TicketData {
-        return json.decodeFromString<TicketData>(MOCK_JSON)
+    override suspend fun processTicket(imageBytes: ByteArray): Ticket {
+        return json.decodeFromString<Ticket>(MOCK_JSON)
     }
 }

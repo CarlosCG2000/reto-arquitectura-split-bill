@@ -9,22 +9,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import io.devexpert.splitbill.app.data.scan.DataStoreScanCounterDataSource
-import io.devexpert.splitbill.data.scan.ScanCounterRepository
-import io.devexpert.splitbill.app.data.ticket.MLTicketDataSource
-import io.devexpert.splitbill.app.data.ticket.MockTicketDataSource
-import io.devexpert.splitbill.data.ticket.TicketRepository
 import io.devexpert.splitbill.di.AppModule
-import io.devexpert.splitbill.domain.useCases.DecrementScanCounterUseCase
-import io.devexpert.splitbill.domain.useCases.GetScansRemainingUseCase
-import io.devexpert.splitbill.domain.useCases.GetTicketDataUseCase
-import io.devexpert.splitbill.domain.useCases.InitializeScanCounterUseCase
-import io.devexpert.splitbill.domain.useCases.ProcessTicketUseCase
-import io.devexpert.splitbill.ui.home.HomeScreen
-import io.devexpert.splitbill.ui.home.HomeViewModel
-import io.devexpert.splitbill.ui.receipt.ReceiptScreen
-import io.devexpert.splitbill.ui.receipt.ReceiptViewModel
-import io.devexpert.splitbill.ui.theme.SplitBillTheme
+import io.devexpert.splitbill.presentation.home.HomeScreen
+import io.devexpert.splitbill.presentation.receipt.ReceiptScreen
+import io.devexpert.splitbill.presentation.theme.SplitBillTheme
 
 class MainActivity : ComponentActivity() {
 

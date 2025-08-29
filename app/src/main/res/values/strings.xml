@@ -1,8 +1,14 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SplitBill</string>
     
     <!-- HomeScreen strings -->
-    <string name="scans_remaining">You have %d scans remaining</string>
+    <!-- <string name="scans_remaining">You have %d scans remaining</string> -->
+    <plurals name="scans_remaining" tools:ignore="UnusedQuantity">
+        <item quantity="zero">You have no scans remaining</item>
+        <item quantity="one">You have one scan remaining</item>
+        <item quantity="many">You have %d scans remaining</item>
+        <item quantity="other">You have %d scans remaining</item>
+    </plurals>
     <string name="no_scans_remaining">You have no scans remaining</string>
     <string name="scan_ticket">Scan Ticket</string>
     <string name="processing">Processing…</string>

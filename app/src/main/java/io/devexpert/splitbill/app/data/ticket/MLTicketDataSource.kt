@@ -7,13 +7,13 @@ import com.google.firebase.ai.type.Schema
 import com.google.firebase.ai.type.content
 import com.google.firebase.ai.type.generationConfig
 import io.devexpert.splitbill.data.ticket.TickectDataSource
-import io.devexpert.splitbill.data.TicketData
+import io.devexpert.splitbill.data.Ticket
 import kotlinx.serialization.json.Json
 
 class MLTicketDataSource: TickectDataSource {
     private var json = Json { ignoreUnknownKeys = true }
 
-    override suspend fun processTicket(image: ByteArray): TicketData {
+    override suspend fun processTicket(image: ByteArray): Ticket {
         Log.d("TicketProcessor", "Iniciando procesamiento de imagen...")
 
         // Definir el schema para la respuesta JSON (sin requiredProperties)
@@ -57,7 +57,7 @@ class MLTicketDataSource: TickectDataSource {
         Log.d("TicketProcessor", "Respuesta de IA: $responseText")
 
         // Parsear el JSON usando kotlinx.serialization
-        val ticketData = json.decodeFromString<TicketData>(responseText)
+        val ticketData = json.decodeFromString<Ticket>(responseText)
         return ticketData
     }
 }

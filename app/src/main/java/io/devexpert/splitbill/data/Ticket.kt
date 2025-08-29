@@ -11,7 +11,7 @@ data class TicketItem(
 )
 
 @Serializable
-data class TicketData(
+data class Ticket(
     val items: List<TicketItem>,
     val total: Double
 )

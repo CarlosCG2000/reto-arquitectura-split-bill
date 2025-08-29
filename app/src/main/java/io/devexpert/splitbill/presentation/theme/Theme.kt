@@ -1,4 +1,4 @@
-package io.devexpert.splitbill.ui.theme
+package io.devexpert.splitbill.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

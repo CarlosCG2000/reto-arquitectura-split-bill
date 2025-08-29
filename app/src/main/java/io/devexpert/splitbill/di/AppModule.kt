@@ -12,8 +12,8 @@ import io.devexpert.splitbill.domain.useCases.GetScansRemainingUseCase
 import io.devexpert.splitbill.domain.useCases.GetTicketDataUseCase
 import io.devexpert.splitbill.domain.useCases.InitializeScanCounterUseCase
 import io.devexpert.splitbill.domain.useCases.ProcessTicketUseCase
-import io.devexpert.splitbill.ui.home.HomeViewModel
-import io.devexpert.splitbill.ui.receipt.ReceiptViewModel
+import io.devexpert.splitbill.presentation.home.HomeViewModel
+import io.devexpert.splitbill.presentation.receipt.ReceiptViewModel
 
 object AppModule {
     private var ticketRepository: TicketRepository? = null

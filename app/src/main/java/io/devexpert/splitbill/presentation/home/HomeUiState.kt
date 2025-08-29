@@ -1,4 +1,4 @@
-package io.devexpert.splitbill.ui.home
+package io.devexpert.splitbill.presentation.home
 
 data class HomeUiState(
     val scansLeft: Int = 0,

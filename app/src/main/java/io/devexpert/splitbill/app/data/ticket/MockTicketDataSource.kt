@@ -2,7 +2,7 @@ package io.devexpert.splitbill.app.data.ticket
 
 import android.util.Log
 import io.devexpert.splitbill.data.ticket.TickectDataSource
-import io.devexpert.splitbill.data.TicketData
+import io.devexpert.splitbill.data.Ticket
 import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
 
@@ -123,13 +123,13 @@ class MockTicketDataSource: TickectDataSource {
         """.trimIndent()
     }
 
-    override suspend fun processTicket(image: ByteArray): TicketData {
+    override suspend fun processTicket(image: ByteArray): Ticket {
         Log.d("TicketProcessor", "Usando datos mock...")
         // Simular un poco de delay para que parezca real
         delay(1500)
 
         // Parsear los datos mock
-        val ticketData = json.decodeFromString<TicketData>(MOCK_JSON)
+        val ticketData = json.decodeFromString<Ticket>(MOCK_JSON)
         return ticketData
     }
 

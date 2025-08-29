@@ -1,7 +1,5 @@
-package io.devexpert.splitbill.ui.home
+package io.devexpert.splitbill.presentation.home
 
-import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -22,17 +20,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
-import kotlinx.coroutines.launch
 import java.io.File
 import io.devexpert.splitbill.R
 
@@ -100,7 +97,9 @@ fun HomeScreenContent(
             ) {
                 Text(
                     text = if (uiState.scansLeft > 0)
-                        stringResource(R.string.scans_remaining, uiState.scansLeft)
+                        pluralStringResource(id = R.plurals.scans_remaining,
+                            count = uiState.scansLeft,
+                            formatArgs = arrayOf(uiState.scansLeft))
                     else
                         stringResource(R.string.no_scans_remaining),
                     fontSize = 18.sp,

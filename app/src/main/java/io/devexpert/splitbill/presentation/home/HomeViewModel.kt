@@ -1,4 +1,4 @@
-package io.devexpert.splitbill.ui.home
+package io.devexpert.splitbill.presentation.home
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
@@ -7,7 +7,7 @@ import io.devexpert.splitbill.domain.useCases.DecrementScanCounterUseCase
 import io.devexpert.splitbill.domain.useCases.GetScansRemainingUseCase
 import io.devexpert.splitbill.domain.useCases.InitializeScanCounterUseCase
 import io.devexpert.splitbill.domain.useCases.ProcessTicketUseCase
-import io.devexpert.splitbill.ui.ImageConverter
+import io.devexpert.splitbill.presentation.ImageConverter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
