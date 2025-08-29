@@ -23,7 +23,9 @@ Proyecto del reto de arquitectura de Antonio Leiva en **Android (Kotlin + Jetpac
 
 📷 Ejemplo:  
 ![Captura Firebase](docs/images/firebase-setup.png)  
-![Commit inicial](docs/images/git-commit-dia0.png)
+<p align="center">
+  <img src="docs/images/git-commit-dia0.png" alt="Captura Firebase" width="400"/>
+</p>
 
 ---
 
@@ -34,7 +36,9 @@ Proyecto del reto de arquitectura de Antonio Leiva en **Android (Kotlin + Jetpac
 - Modificación de las pantallas (`HomeScreen`, `ReceiptScreen`) para consumir el repositorio
 
 📷 Ejemplo:  
-![Estructura de datos](docs/images/data-layer.png)
+<p align="center">
+  <img src="docs/images/data-layer.png" alt="Captura Firebase" width="400"/>
+</p>
 
 ---
 
@@ -55,7 +59,9 @@ Proyecto del reto de arquitectura de Antonio Leiva en **Android (Kotlin + Jetpac
 - `MainActivity` conecta dependencias y ViewModels
 
 📷 Ejemplo:  
-![Demo UI](docs/images/app-ui.png)
+<p align="center">
+  <img src="docs/images/app-ui.png" alt="Captura Firebase" width="400"/>
+</p>
 
 ---
 
@@ -72,7 +78,9 @@ Proyecto del reto de arquitectura de Antonio Leiva en **Android (Kotlin + Jetpac
 - Procesar un ticket mock y comprobar que el **total esperado (272.20)** es correcto
 
 📷 Ejemplo test:  
-![Tests](docs/images/tests.png)
+<p align="center">
+  <img src="docs/images/tests.png" alt="Captura Firebase" width="400"/>
+</p>
 
 ---
 
@@ -85,9 +93,10 @@ Proyecto del reto de arquitectura de Antonio Leiva en **Android (Kotlin + Jetpac
 ---
 
 ## 📲 Resultado final
-Ejecutable en **emulador o dispositivo Android real**  
-📷  
-![App funcionando](docs/images/app-final.png)
+Ejecutable en **emulador o dispositivo Android real**  📷  
+<p align="center">
+  <img src="docs/images/app-final.png" alt="Captura Firebase" width="400"/>
+</p>
 
 ---
 
