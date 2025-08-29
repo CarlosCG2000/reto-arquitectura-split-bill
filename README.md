@@ -1,8 +1,8 @@
  # 📱 SplitBill – Desarrollo paso a paso
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-blue?logo=kotlin)]()
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.2.10-blue?logo=kotlin)]()
 [![Gradle](https://img.shields.io/badge/Gradle-8.11.1-green?logo=gradle)]()
-[![Android](https://img.shields.io/badge/Android-API_24+-brightgreen?logo=android)]()
+[![Android](https://img.shields.io/badge/Android-API_36+-brightgreen?logo=android)]()
 
 Proyecto del reto de arquitectura de Antonio Leiva en **Android (Kotlin + Jetpack Compose)** siguiendo **Clean Architecture** y aplicando buenas prácticas de:
 - ✅ Separación de capas (data, domain, presentation)
