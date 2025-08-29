@@ -1,104 +1,63 @@
-# SplitBill 📱
 
-An intelligent Android app that helps you split bills by scanning receipts using AI technology.
+# RAMA GIT -> DIAS REALIZADOS
 
-## Overview
+[ IMAGEN -> CAPTURA DE COMMIT GIT ]
 
-SplitBill is a modern Android application built with Jetpack Compose that uses Firebase AI to automatically process receipt images and help you split expenses with friends, family, or colleagues. Simply scan a receipt, and the AI will extract the items and prices, allowing you to easily select what each person ordered and calculate individual totals.
+[ RESULTADO FINAL PARA VER EN EMULADOR O DISPOSITIVO ANDROID ]
 
-## Features
+## DIA 1 (commit "dia 0")
 
-- **📸 Receipt Scanning**: Capture receipt images using your device's camera
-- **🤖 AI Processing**: Powered by Firebase AI to automatically extract items and prices from receipts
-- **💰 Bill Splitting**: Select items for each person and calculate individual totals
-- **📊 Smart Item Detection**: Automatically identifies menu items, quantities, and prices
-- **🌍 Multi-language Support**: Available in English and Spanish
-- **📱 Modern UI**: Built with Jetpack Compose for a smooth, native Android experience
+Configuración de mi firebase [ IMAGEN -> CAPTURA DE FIREBASE ]
 
-## Tech Stack
+Se han eliminado los warnings, espacios y comentarios innecesarios en el proyecto:
+1. en el build.gradle (app) -> warning
+2. en el mainactivity -> comentarios y espacios
+3. en el HomeScreen y ReceiptScreen -> warning y comentarios
+4. en el ScanCounter y TicketDataHolder -> warning (eliminado funciones innecesarias)
+5. en el TicketProcessor -> warning
 
-- **Language**: Kotlin
-- **UI Framework**: Jetpack Compose
-- **Architecture**: Clean Architecture with MVVM pattern
-- **AI Processing**: Firebase AI (Vertex AI)
-- **Navigation**: Navigation Compose
-- **Local Storage**: DataStore Preferences
-- **Serialization**: Kotlinx Serialization
-- **Build System**: Gradle with Version Catalogs
+Actualizado todas las librerias y dependencias a su última versión. 
+1. en libs.versions.toml
 
-## Getting Started
+## DIA 2 (commit "dia 1-2 Capa de datos")
 
-### Prerequisites
+He creado la estructura dle proyecto siguiendo la arquitectura limpia (Clean Architecture) con las cparteas de datos, dominio y presentación. Pero solo con implementación de la capa de datos.
+1.  Modulo data con carpetas scan y receipt
+En cada carpeta se encuentra los ficheros de data source y repositorio. El modelo de datos  (TicketData) en un principio lo he sacado fuera.
+2. Modulo app/data con carpetas scan y receipt
+En cada carpeta se encuentra las implementaciones de los data source, en caso de ticket con la implementación real y a un mock para pruebas.
+3. Ficheros sueltos de la activity y pantallas (HomeScreen y ReceiptScreen) los he modifado para su funcionamiento con la nueva estructura llamando al repositorio.
 
-- Android Studio Hedgehog | 2023.1.1 or later
-- JDK 11 or later
-- Android SDK API 26+ (minimum) / API 36 (target)
-- Firebase project with AI services enabled
+## DIA 3 (commit "dia 2-3 Capa de dominio (casos de uso)")
+Trata de implementar la capa de dominio con los casos de uso (use cases) para manejar la lógica de negocio de la aplicación.
 
-### Setup
+1. Antes de todo he movido el modelo de datos (TicketData) a la capa de data que es donde le correspondia.
+2. En el modulo domain he creado las carpetas useCases directacmente con cada caso de uso sin necesidad de pasar por una interfaz para hacerlo más sencillo.
+3. He modificado la implementación de la capa de presentación (pantallas) para que utilicen los casos de uso en lugar de interactuar directamente con el repositorio.
+4. He modificado la activity principal para que pase los casos de uso necesarios a través del constructor.
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd split-bill
-   ```
+## DIA 4 (commit "dia 3-4 La UI Inteligente (ViewModel y UDF (Unidirectional Data Flow))")
+Implementación de la capa de presentación con ViewModel y UDF (Unidirectional Data Flow) para gestionar el estado de la UI de manera reactiva y mantener una separación clara entre la lógica de negocio y la interfaz de usuario.
 
-2. **Firebase Configuration**
-   - Create a Firebase project at [console.firebase.google.com](https://console.firebase.google.com)
-   - Enable Firebase AI services
-   - Download `google-services.json` and place it in the `app/` directory
+1. He creado los ViewModel para cada pantalla (HomeViewModel y ReceiptViewModel) que se encargan de manejar el estado de la UI y exponer los datos a través de StateFlow.
+2. He modificado las pantallas (HomeScreen y ReceiptScreen) para que observen los StateFlow del ViewModel y actualicen la UI en consecuencia.
+3. A traves de uiState con unos valores como loading, error y data he conseguido gestionar los diferentes estados de la UI de manera reactiva.
+4. He divivido en difentes ficheros y componentes la UI para hacerla más modular y reutilizable para el listado de tickets.
+5. He modificado la activity principal para que utilice los ViewModel y pase los casos de uso necesarios a través del constructor.
 
-3. **Build the project**
-   ```bash
-   ./gradlew build
-   ```
+## DIA 5 (commit "dia 5 Inyección de Dependencias y Testing")
+Implementación de la inyección de dependencias de forma manual (sin librerias como Koin o Hilt) para gestionar las dependencias de manera eficiente y facilitar las pruebas unitarias.
+1. Creación de un nuevo paquete di "di" en el módulo app para definir los módulos y proporcionar las dependencias necesarias, dentor creo un objeto AppModule.
+2. Modificación de la MainActivity para que utilice las dependencias proporcionadas por el AppModule en lugar de crear instancias directamente.
+3. En las pantallas he modificado la forma de obtener los ViewModel para que utilicen las dependencias inyectadas (que se proporicionan desde la MainActivity).
+4. Creación de pruebas unitarias para los casos de uso y los ViewModel.
+5. He añadido en el gradle la dependencia: testImplementation(libs.kotlinx.coroutines.test)
+6. He creado test como:
+- Verificar que se procesan todos los ítems
+- Verificar un ítem concreto (integridad de datos)
+- Validar que el total coincide con la suma de todos los ítems.
 
-4. **Run the app**
-   - Open the project in Android Studio
-   - Select a device or emulator
-   - Click Run
-
-## Usage
-
-1. **Launch the app** and you'll see the home screen with scan counter
-2. **Tap "Scan Ticket"** to open the camera
-3. **Take a photo** of your receipt
-4. **Wait for AI processing** - the app will extract items and prices automatically
-5. **Select items** for each person by tapping on them
-6. **View totals** for selected items
-7. **Mark as paid** when done
-
-## Configuration
-
-### Build Variants
-
-- **Debug**: Development build with debug logging
-- **Release**: Production build with code obfuscation and optimization
-
-### Scan Limits
-
-The app implements a scan counter system to manage usage. Users have a limited number of scans available.
-
-## License
-
-MIT License
-
-Copyright (c) 2025 SplitBill
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+## DIA 5 (commit "Final Nuevas mejoras y README.md")
+- MEJORAS:
+  - Cambiado de nombre de "ui" a "presentation"
+  - Strings en resources (strings.xml) cambiar a plural resources

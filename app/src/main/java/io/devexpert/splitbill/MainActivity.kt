@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,6 +14,7 @@ import io.devexpert.splitbill.data.scan.ScanCounterRepository
 import io.devexpert.splitbill.app.data.ticket.MLTicketDataSource
 import io.devexpert.splitbill.app.data.ticket.MockTicketDataSource
 import io.devexpert.splitbill.data.ticket.TicketRepository
+import io.devexpert.splitbill.di.AppModule
 import io.devexpert.splitbill.domain.useCases.DecrementScanCounterUseCase
 import io.devexpert.splitbill.domain.useCases.GetScansRemainingUseCase
 import io.devexpert.splitbill.domain.useCases.GetTicketDataUseCase
@@ -30,50 +32,29 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val dataSource = if(BuildConfig.DEBUG) MockTicketDataSource()
-                         else MLTicketDataSource()
-
-        val ticketRepository = TicketRepository(dataSource)
-
-        val dataSourceScan = DataStoreScanCounterDataSource(this)
-        val scanCounterRepository = ScanCounterRepository(dataSourceScan)
-
         setContent {
             SplitBillTheme {
+
                 val navController = rememberNavController()
+                val context = LocalContext.current
+
                 NavHost(
                     navController = navController,
                     startDestination = "home"
                 ) {
                     composable("home") {
 
-                        val homeViewModel: HomeViewModel = viewModel {
-                            HomeViewModel(
-                                processTicketUseCase = ProcessTicketUseCase(ticketRepository),
-                                initializeScanCounterUseCase = InitializeScanCounterUseCase(scanCounterRepository),
-                                getScansRemainingUseCase = GetScansRemainingUseCase(scanCounterRepository),
-                                decrementScanCounterUseCase = DecrementScanCounterUseCase(scanCounterRepository)
-                            )
-                        }
-
                         HomeScreen(
-                            viewmodel = homeViewModel,
+                            viewmodel = viewModel { AppModule.createHomeViewModel(context) },
                             onTicketProcessed = {
-                                navController.navigate("receipt")   // Navegar a la pantalla de detalle
+                                navController.navigate("receipt")
                             }
                         )
                     }
 
                     composable("receipt") {
-
-                        val ticketViewModel = viewModel {
-                            ReceiptViewModel(
-                                getTicketDataUseCase = GetTicketDataUseCase(ticketRepository)
-                            )
-                        }
-
                         ReceiptScreen(
-                            viewModel = ticketViewModel,
+                            viewModel = viewModel { AppModule.createReceiptViewModel() },
                             onBackPressed = {
                                 navController.popBackStack()
                             }

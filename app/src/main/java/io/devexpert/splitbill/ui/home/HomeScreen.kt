@@ -1,5 +1,6 @@
 package io.devexpert.splitbill.ui.home
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -33,18 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 import kotlinx.coroutines.launch
 import java.io.File
-import androidx.core.graphics.scale
-import androidx.lifecycle.viewmodel.compose.viewModel
 import io.devexpert.splitbill.R
-import io.devexpert.splitbill.data.scan.ScanCounterRepository
-import io.devexpert.splitbill.data.ticket.TicketRepository
-import io.devexpert.splitbill.data.TicketData
-import io.devexpert.splitbill.domain.useCases.DecrementScanCounterUseCase
-import io.devexpert.splitbill.domain.useCases.GetScansRemainingUseCase
-import io.devexpert.splitbill.domain.useCases.InitializeScanCounterUseCase
-import io.devexpert.splitbill.domain.useCases.ProcessTicketUseCase
-import io.devexpert.splitbill.ui.ImageConverter
-import kotlin.compareTo
 
 // El Composable principal de la pantalla de inicio
 @Composable
@@ -52,7 +42,6 @@ fun HomeScreen(
     viewmodel: HomeViewModel,
     onTicketProcessed: () -> Unit
 ) {
-    // Variable local para los escaneos restantes (ahora desde DataStore)
     val context = LocalContext.current
     val uiState = viewmodel.uiState.collectAsState()
 

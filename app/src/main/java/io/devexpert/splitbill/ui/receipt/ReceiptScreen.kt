@@ -1,5 +1,6 @@
 package io.devexpert.splitbill.ui.receipt
 
+import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,14 +14,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import io.devexpert.splitbill.R
 import io.devexpert.splitbill.data.ticket.TicketRepository
 import io.devexpert.splitbill.data.TicketItem
+import io.devexpert.splitbill.di.AppModule
 import io.devexpert.splitbill.domain.useCases.GetTicketDataUseCase
 import java.util.Locale
 import kotlin.compareTo
